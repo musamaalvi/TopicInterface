@@ -1,0 +1,152 @@
+// buttons.scss
+// contains buttons' styles
+$btn-help: #aaaaaa;
+$btn-default: #f8f9fa;
+$btn-default-border: #d6dade;
+$btn-cancel: #969dab;
+$clr-pink: #ef207d;
+
+.btn {
+  position: relative;
+  display: inline-block;
+  color: $white;
+  @include transition();
+  border-radius: 3px;
+  padding:6px 15px;
+  border: 1px solid $clr-pri;
+  font-size: 12px;
+  text-align: center;
+  background: $clr-pri;
+  outline: none;
+  cursor: pointer;
+  &:hover {
+    color: $white;
+    background-color: darken($clr-pri, 8%);
+  }
+
+  &.btn--large{
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+  }
+
+  &.right{
+    margin: 0;
+  }
+
+  &.btn--outline{
+    background: #fff;
+    color: #212229;
+    border:1px solid $clr-pri;
+    &:hover {
+      color: #fff;
+      background-color:$clr-pri;
+    }
+  }
+
+  &.btn--submit {
+    &:after {
+      content: "\f3f4";
+      display:inline-block;
+      opacity: 0;
+     visibility: hidden;
+      font-family: "Font Awesome 5 Pro";
+      font-size:0;
+
+    }
+  }
+  &.btn--loading {
+    &:after {
+      opacity:1;
+      margin-left: 10px;
+      font-size: 12px;
+      visibility: visible;
+      -webkit-animation: rotateAnimation 1s infinite linear;
+      animation: rotateAnimation 1s infinite linear;
+    }
+  }
+
+  &.btn-select {
+    padding:6px 14px 6px 10px;
+  //  border: 1px solid #d6dade;
+    border-radius: 3px;
+    background: $white;
+    font-size: 12px;
+    color: #34495e;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+
+    &:hover,
+    &:active {
+      color: #4c5e70;
+      background-color: $white;
+      -webkit-box-shadow: 0px 0px 10px 0px rgba(119, 119, 119, 0.25);
+      -moz-box-shadow: 0px 0px 10px 0px rgba(119, 119, 119, 0.25);
+      box-shadow: 0px 0px 10px 0px rgba(119, 119, 119, 0.25);
+    }
+
+    &.input-validation-error {
+      border-color: $clr-red;
+    }
+
+    .field-validation-error {
+      display: block;
+      color: $clr-red;
+      margin: 3px 0;
+      font-size: 11px;
+    }
+
+    &.disabled {
+      &:hover,
+      &:active {
+        box-shadow: none;
+        background-color: #f8f9fa;
+      }
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.btn--cancel {
+    float:right;
+    background: $btn-cancel;
+    border: 1px solid #969dab;
+    color: $white;
+    i{
+      margin-right:8px;
+    }
+    &:hover {
+      background-color: darken($btn-cancel, 8%);
+    }
+  }
+  &.btn--settings {
+    @include border-radius(5px);
+    text-transform: capitalize;
+  }
+
+  &.btn--disabled {
+    @include opacity(0.5);
+    //background: $btn-gray;
+    cursor: not-allowed;
+  }
+}
+
+@keyframes rotateAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes wk-rotateAnimation {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
