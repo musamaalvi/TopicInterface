@@ -14,7 +14,11 @@ export class AppComponent {
   arrayBuffer: any
   fileJson: any;
   FileUploaded: boolean = false;
+  ExportData=false;
   Object = Object;
+  RegExpres = /\n/g;
+  re = new RegExp(this.RegExpres,"g");
+
   incomingfile(event) {
 
     this.fileToUpload = event.target.files[0];
@@ -25,7 +29,7 @@ export class AppComponent {
     Object.keys(toPass[0]).forEach(function (key, index) {
       // key: the name of the object key
       // index: the ordinal position of the key within the object
-      console.log(toPass[0][key])
+     // console.log(toPass[0][key])
     })
     this.FileUploaded = true
   }
@@ -55,17 +59,18 @@ export class AppComponent {
     debugger
     ToRemoveTag.remove()
   }
-  Export() {
-    var workbook = XLSX.utils.book_new();
-    var ws1 = XLSX.utils.table_to_book(document.getElementById('tableToExport'));
-    XLSX.utils.book_append_sheet(workbook, ws1, "Sheet1");
-    XLSX.writeFile(workbook, 'out.xlsb');
-
-
-
-    //html
-    // var htmlstr = document.getElementById('tableToExport').outerHTML;
-    // var workbook = XLSX.read(htmlstr, { type: 'string' });
+  Export(data) {
+    // var workbook = XLSX.utils.book_new();
+    // var ws1 = XLSX.utils.table_to_book(document.getElementById('testingTable'));
+    // XLSX.utils.book_append_sheet(workbook, ws1, "Sheet1");
     // XLSX.writeFile(workbook, 'out.xlsb');
+
+debugger
+
+  this.ExportData=data;
+    //data.children[0].children[1].innerText.replace(/\n/g, "|").split("||")
+    var htmlstr = document.getElementById('testingTable').outerHTML;
+    var workbook = XLSX.read(htmlstr, { type: 'string' });
+    XLSX.writeFile(workbook, 'out.xlsb');
   }
 }

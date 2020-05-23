@@ -10,7 +10,7 @@
             accept=".xlsx">
         </div>
         <button type="button" class="btn btn-info" (click)="Upload()">Upload</button>
-        <button type="button" class="btn btn-info" (click)="Export()">Export</button>
+        <button type="button" class="btn btn-info" (click)="Export(table)">Export</button>
         <table id="tableToExport">
           <thead>
             <tr class="thead no--border">
@@ -20,8 +20,8 @@
               <th class="text-center">Action</th>
             </tr>
           </thead>
-          <tbody>
-            
+          <tbody #table>
+
 
             <ng-container *ngIf="FileUploaded">
               <tr class="" *ngFor="let row of this.fileJson">
@@ -31,11 +31,12 @@
                   <div class="tags">
                     <ul class="tags tags--ds ui-sortable">
                       <ng-container *ngFor="let key of this.Object.keys(row)">
-                      <li #ToRemoveTag class="tags__item" *ngIf="key.substring(0,5)=='Topic'">
-                        <p>{{row[key]}}</p> <span class="close__item"><i class="fal fa-times" (click)="removeTag(ToRemoveTag)"></i></span>
-                      </li>
-                    </ng-container>
-                   
+                        <li #ToRemoveTag class="tags__item" *ngIf="key.substring(0,5)=='Topic'">
+                          <p>{{row[key]}}</p> <span class="close__item"><i class="fal fa-times"
+                              (click)="removeTag(ToRemoveTag)"></i></span>
+                        </li>
+                      </ng-container>
+
                     </ul>
                   </div>
 
@@ -47,6 +48,46 @@
               </tr>
 
             </ng-container>
+
+          </tbody>
+        </table>
+
+
+
+        <table id="testingTable" *ngIf="ExportData">
+          <thead>
+            <tr class="thead no--border">
+              <th class="text-left">Comments</th>
+
+              <th class="text-center">Tags</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+
+
+            <ng-container *ngFor="let row of this.ExportData.children; let i = index">
+              <tr class="">
+                <td class="text-left">{{i+1}}</td>
+                <td class="text-left">{{row.children[0].innerText}}</td>
+                <ng-container *ngFor="let item of row.children[1].innerText.replace(re, '|').split('||')">
+                  <td class="text-left">
+
+                    
+                         {{item}}
+                       
+
+
+                     
+                  </td>
+                </ng-container>
+               
+
+              </tr>
+            </ng-container>
+
+
+
 
           </tbody>
         </table>
