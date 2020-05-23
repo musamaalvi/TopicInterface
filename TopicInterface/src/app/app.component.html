@@ -4,9 +4,14 @@
   <div class="l-content ">
     <div class="widget fullpage--widget">
       <div class="table table--striped">
-
-
-        <table>
+        <div class="form-group">
+          <label for="file">Choose File</label>
+          <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file"
+            accept=".xlsx">
+        </div>
+        <button type="button" class="btn btn-info" (click)="Upload()">Upload</button>
+        <button type="button" class="btn btn-info" (click)="Export()">Export</button>
+        <table id="tableToExport">
           <thead>
             <tr class="thead no--border">
               <th class="text-left">Comments</th>
@@ -16,103 +21,32 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="">
-              <td class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-              <td class="text-center">
+            
 
-                <ul class="tags tags--ds ui-sortable">
+            <ng-container *ngIf="FileUploaded">
+              <tr class="" *ngFor="let row of this.fileJson">
+                <td class="text-left">{{row.Comment}}</td>
+                <td class="text-center">
 
+                  <div class="tags">
+                    <ul class="tags tags--ds ui-sortable">
+                      <ng-container *ngFor="let key of this.Object.keys(row)">
+                      <li #ToRemoveTag class="tags__item" *ngIf="key.substring(0,5)=='Topic'">
+                        <p>{{row[key]}}</p> <span class="close__item"><i class="fal fa-times" (click)="removeTag(ToRemoveTag)"></i></span>
+                      </li>
+                    </ng-container>
+                   
+                    </ul>
+                  </div>
 
+                </td>
+                <td class="text-center">
+                  <a class="btn">Update</a>
+                </td>
 
-                  <li class="tags__item">
-                    <p>Verb</p> <span class="close__item"><i class="fal fa-times"></i></span>
-                  </li>
+              </tr>
 
-                  <li class="tags__item">
-                    <p>Verb</p> <span class="close__item"><i class="fal fa-times"></i></span>
-                  </li>
-                </ul>
-
-              </td>
-
-              <td class="text-center">
-                <a class="btn">Update</a>
-              </td>
-
-            </tr>
-
-
-            <tr class="">
-              <td class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-              <td class="text-center">
-
-                <div class="tags"><ul class="tags tags--ds ui-sortable">
-
-
-
-                  <li class="tags__item">
-                    <p>Verb</p> <span class="close__item"><i class="fal fa-times"></i></span>
-                  </li>
-
-                  <li class="tags__item">
-                    <p>Verb</p> <span class="close__item"><i class="fal fa-times"></i></span>
-                  </li>
-                </ul></div>
-
-              </td>
-              <td class="text-center">
-                <a class="btn">Update</a>
-              </td>
-
-            </tr>
-
-
-            <tr class="">
-              <td class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-              <td class="text-center">
-
-                <div class="tags"><ul class="tags tags--ds ui-sortable">
-
-
-
-                  <li class="tags__item">
-                    <p>Verb</p> <span class="close__item"><i class="fal fa-times"></i></span>
-                  </li>
-
-                  <li class="tags__item">
-                    <p>Verb</p> <span class="close__item"><i class="fal fa-times"></i></span>
-                  </li>
-                </ul></div>
-
-              </td>
-              <td class="text-center">
-                <a class="btn">Update</a>
-              </td>
-
-            </tr>  <tr class="">
-              <td class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-              <td class="text-center">
-
-                <div class="tags"><ul class="tags tags--ds ui-sortable">
-
-
-
-                  <li class="tags__item">
-                    <p>Verb</p> <span class="close__item"><i class="fal fa-times"></i></span>
-                  </li>
-
-                  <li class="tags__item">
-                    <p>Verb</p> <span class="close__item"><i class="fal fa-times"></i></span>
-                  </li>
-                </ul></div>
-
-              </td>
-              <td class="text-center">
-                <a class="btn">Update</a>
-              </td>
-
-            </tr>
-
+            </ng-container>
 
           </tbody>
         </table>
