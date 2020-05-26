@@ -24,16 +24,16 @@
 
 
             <ng-container *ngIf="FileUploaded">
-              <tr class="" *ngFor="let row of this.fileJson">
+              <tr class="" *ngFor="let row of this.fileJson; let ind=index">
                 <td class="text-left">{{row.Comment}}</td>
                 <td class="text-center">
 
                   <div class="tags">
-                    <ul class="tags tags--ds ui-sortable">
-                      <ng-container *ngFor="let key of this.Object.keys(row)">
-                        <li #ToRemoveTag class="tags__item" *ngIf="key.substring(0,5)=='Topic'">
-                          <p>{{row[key]}}</p> <span class="close__item"><i class="fal fa-times"
-                              (click)="removeTag(ToRemoveTag)"></i></span>
+                    <ul class="tags tags--ds ui-sortable" #forAddingTag>
+                      <ng-container *ngFor="let tag of this.tagsArray[ind]">
+                        <li #ToRemoveTag class="tags__item" >
+                          <p>{{tag}}</p> <span class="close__item"><i class="fal fa-times"
+                              (click)="removeTag(ind, ToRemoveTag)"></i></span>
                         </li>
                       </ng-container>
 
@@ -42,7 +42,7 @@
 
                 </td>
                 <td class="text-center">
-                  <a class="btn">Update</a>
+                  <a class="btn" (mousedown)="AddTag(ind)">Update</a>
                 </td>
 
               </tr>
@@ -54,13 +54,16 @@
 
 
 
-        <table id="testingTable" *ngIf="ExportData">
+        <table id="testingTable" *ngIf="ExportData" style="display: none;">
           <thead>
             <tr class="thead no--border">
-              <th class="text-left">Comments</th>
+              <th class="text-left">CommentId</th>
 
-              <th class="text-center">Tags</th>
-              <th class="text-center">Action</th>
+              <th class="text-center">Comment</th>
+              <ng-container *ngFor="let topic of this.tagsArray[this.maxLengthTopic];let i = index">
+                <th class="text-center">Topic{{i}}</th>
+              </ng-container>
+              
             </tr>
           </thead>
           <tbody>

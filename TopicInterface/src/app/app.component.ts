@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
+import { forEach } from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -14,22 +15,33 @@ export class AppComponent {
   arrayBuffer: any
   fileJson: any;
   FileUploaded: boolean = false;
-  ExportData=false;
+  ExportData = false;
   Object = Object;
   RegExpres = /\n/g;
-  re = new RegExp(this.RegExpres,"g");
+  re = new RegExp(this.RegExpres, "g");
+  tagsArray = [];
+  maxLengthTopic: Number = 0;
+
 
   incomingfile(event) {
 
     this.fileToUpload = event.target.files[0];
   }
   PopulateTable() {
+    debugger
+    this.tagsArray = []
+    this.fileJson.forEach((obj,index) => {
+      
+      var arr = []
+      Object.keys(obj).forEach((key) => {
+        if(key.substring(0,5)=="Topic"){
+          arr.push(obj[key])
 
-    var toPass = this.fileJson
-    Object.keys(toPass[0]).forEach(function (key, index) {
-      // key: the name of the object key
-      // index: the ordinal position of the key within the object
-     // console.log(toPass[0][key])
+        }
+      })
+      if(arr.length>=this.maxLengthTopic)
+        this.maxLengthTopic = index
+      this.tagsArray.push(arr)
     })
     this.FileUploaded = true
   }
@@ -55,22 +67,35 @@ export class AppComponent {
     fileReader.readAsArrayBuffer(this.fileToUpload);
   }
 
-  removeTag(ToRemoveTag) {
-    debugger
-    ToRemoveTag.remove()
+  removeTag(ind, removeTag) {
+   debugger
+   var index = this.tagsArray[ind].indexOf(removeTag.innerText)
+    this.tagsArray[ind].splice(index,1)
   }
   Export(data) {
-    // var workbook = XLSX.utils.book_new();
-    // var ws1 = XLSX.utils.table_to_book(document.getElementById('testingTable'));
-    // XLSX.utils.book_append_sheet(workbook, ws1, "Sheet1");
-    // XLSX.writeFile(workbook, 'out.xlsb');
+   
 
-debugger
 
-  this.ExportData=data;
+    this.ExportData = data;
     //data.children[0].children[1].innerText.replace(/\n/g, "|").split("||")
-    var htmlstr = document.getElementById('testingTable').outerHTML;
-    var workbook = XLSX.read(htmlstr, { type: 'string' });
-    XLSX.writeFile(workbook, 'out.xlsb');
+    setTimeout(() => {
+      var htmlstr = document.getElementById('testingTable').outerHTML;
+      var workbook = XLSX.read(htmlstr, { type: 'string' });
+      XLSX.writeFile(workbook, 'out.xlsb');
+    },
+      4000);
+    
+  }
+  AddTag(ind){
+    debugger
+  
+      var text = "";
+      if (window.getSelection) {
+          text = window.getSelection().toString();
+      } 
+      var value = text;
+    if(value !=""){
+      this.tagsArray[ind].push(value)
+    }
   }
 }
