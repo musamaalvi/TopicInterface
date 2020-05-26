@@ -81,7 +81,7 @@ export class AppComponent {
     setTimeout(() => {
       var htmlstr = document.getElementById('testingTable').outerHTML;
       var workbook = XLSX.read(htmlstr, { type: 'string' });
-      XLSX.writeFile(workbook, 'out.xlsb');
+      XLSX.writeFile(workbook, 'out.xlsx');
     },
       4000);
     
