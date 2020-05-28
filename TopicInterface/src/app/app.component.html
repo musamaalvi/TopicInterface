@@ -14,6 +14,7 @@
         <table id="tableToExport">
           <thead>
             <tr class="thead no--border">
+              <th class="text-left">Comment Id </th>
               <th class="text-left">Comments</th>
 
               <th class="text-center">Tags</th>
@@ -25,6 +26,7 @@
 
             <ng-container *ngIf="FileUploaded">
               <tr class="" *ngFor="let row of this.fileJson; let ind=index">
+                <td class="text-left">{{row.CommentId}}</td>
                 <td class="text-left">{{row.Comment}}</td>
                 <td class="text-center">
 
@@ -72,8 +74,8 @@
             <ng-container *ngFor="let row of this.ExportData.children; let i = index">
               <tr class="">
                 <td class="text-left">{{i+1}}</td>
-                <td class="text-left">{{row.children[0].innerText}}</td>
-                <ng-container *ngFor="let item of row.children[1].innerText.replace(re, '|').split('||')">
+                <td class="text-left">{{row.children[1].innerText}}</td>
+                <ng-container *ngFor="let item of row.children[2].innerText.replace(re, '|').split('||')">
                   <td class="text-left">
 
                     
