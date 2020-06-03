@@ -111,7 +111,7 @@
 
             <ng-container *ngFor="let row of this.ExportData.children; let i = index">
               <tr class="">
-                <td class="text-left">{{i+1}}</td>
+                <td class="text-left">{{row.children[0].innerText}}</td>
                 <td class="text-left">{{row.children[1].innerText}}</td>
                 <ng-container *ngFor="let item of row.children[2].innerText.replace(re, '|').split('||')">
                   <td class="text-left">

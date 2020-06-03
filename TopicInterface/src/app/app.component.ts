@@ -73,7 +73,7 @@ export class AppComponent {
   }
   Export(data) {
 
-    
+    debugger
     var maxLength = 0
     this.tagsArray.forEach((val, index) => {
       if (val.length >= maxLength) {
@@ -95,7 +95,7 @@ export class AppComponent {
       4000);
 
   }
-  AddTag(ind) {
+  AddTag = (ind) => {
     
     if (ind == this.globalIndex) {
       var text = "";
@@ -106,7 +106,7 @@ export class AppComponent {
       if (value != "") {
         if (this.fileJson[ind].Comment.indexOf(value) >= 0)
           if (this.tagsArray[ind].indexOf(value) == -1)
-            if (this.tagsArray[ind].length < 6)
+            if (value.split(' ').length < 6)
               this.tagsArray[ind].push(value)
             else
               alert("Topics limit exceeded")
