@@ -3,7 +3,10 @@ $widget-bg: #fefefe;
 $widget-border: #d6dbdf;
 
 .widget {
+  overflow: hidden;
+  float: left;
   background: #fff;
+  margin-bottom: 30px;
   position: relative;
  // min-height: 250px;
   width: 100%;

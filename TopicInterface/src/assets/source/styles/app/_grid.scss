@@ -1,5 +1,7 @@
 .container {
-  @include container;
+ // @include container;
+ width: 90%;
+ margin: 0 auto;
 }
 
 .w-small,
