@@ -28,19 +28,18 @@ export class AppComponent {
     this.fileToUpload = event.target.files[0];
   }
   PopulateTable() {
-    debugger
+    
     this.tagsArray = []
-    this.fileJson.forEach((obj,index) => {
-      
+    this.fileJson.forEach((obj, index) => {
+
       var arr = []
       Object.keys(obj).forEach((key) => {
-        if(key.substring(0,5)=="Topic"){
+        if (key.substring(0, 5) == "Topic") {
           arr.push(obj[key])
 
         }
       })
-      if(arr.length>=this.maxLengthTopic)
-        this.maxLengthTopic = index
+
       this.tagsArray.push(arr)
     })
     this.FileUploaded = true
@@ -68,12 +67,22 @@ export class AppComponent {
   }
 
   removeTag(ind, removeTag) {
-   debugger
-   var index = this.tagsArray[ind].indexOf(removeTag.innerText)
-    this.tagsArray[ind].splice(index,1)
+    
+    var index = this.tagsArray[ind].indexOf(removeTag.innerText)
+    this.tagsArray[ind].splice(index, 1)
   }
   Export(data) {
-   
+
+    
+    var maxLength = 0
+    this.tagsArray.forEach((val, index) => {
+      if (val.length >= maxLength) {
+        this.maxLengthTopic = index
+        maxLength = val.length
+      }
+
+
+    })
 
 
     this.ExportData = data;
@@ -84,27 +93,33 @@ export class AppComponent {
       XLSX.writeFile(workbook, 'out.xlsx');
     },
       4000);
-    
+
   }
-  AddTag(ind){
-    debugger
-    if(ind == this.globalIndex){
+  AddTag(ind) {
+    
+    if (ind == this.globalIndex) {
       var text = "";
       if (window.getSelection) {
-          text = window.getSelection().toString();
-      } 
+        text = window.getSelection().toString();
+      }
       var value = text;
-    if(value !=""){
-      if(this.fileJson[ind].Comment.indexOf(value)>=0)
-        if(this.tagsArray[ind].indexOf(value) == -1)
-          this.tagsArray[ind].push(value)
-    }
+      if (value != "") {
+        if (this.fileJson[ind].Comment.indexOf(value) >= 0)
+          if (this.tagsArray[ind].indexOf(value) == -1)
+            if (this.tagsArray[ind].length < 6)
+              this.tagsArray[ind].push(value)
+            else
+              alert("Topics limit exceeded")
+      }
 
     }
-     
+
   }
 
-  setIndex(index){
+  setIndex(index) {
     this.globalIndex = index;
+  }
+  clearTopics(index) {
+    this.tagsArray[index] = [];
   }
 }
