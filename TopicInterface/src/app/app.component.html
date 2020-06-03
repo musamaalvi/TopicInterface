@@ -27,7 +27,7 @@
             <ng-container *ngIf="FileUploaded">
               <tr class="" *ngFor="let row of this.fileJson; let ind=index">
                 <td class="text-left">{{row.CommentId}}</td>
-                <td class="text-left">{{row.Comment}}</td>
+                <td class="text-left" (click)="setIndex(ind)">{{row.Comment}}</td>
                 <td class="text-center">
 
                   <div class="tags">

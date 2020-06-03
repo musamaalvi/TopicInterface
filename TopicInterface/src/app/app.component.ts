@@ -21,7 +21,7 @@ export class AppComponent {
   re = new RegExp(this.RegExpres, "g");
   tagsArray = [];
   maxLengthTopic: Number = 0;
-
+  globalIndex = -1;
 
   incomingfile(event) {
 
@@ -88,14 +88,23 @@ export class AppComponent {
   }
   AddTag(ind){
     debugger
-  
+    if(ind == this.globalIndex){
       var text = "";
       if (window.getSelection) {
           text = window.getSelection().toString();
       } 
       var value = text;
     if(value !=""){
-      this.tagsArray[ind].push(value)
+      if(this.fileJson[ind].Comment.indexOf(value)>=0)
+        if(this.tagsArray[ind].indexOf(value) == -1)
+          this.tagsArray[ind].push(value)
     }
+
+    }
+     
+  }
+
+  setIndex(index){
+    this.globalIndex = index;
   }
 }
