@@ -22,6 +22,7 @@ export class AppComponent {
   tagsArray = [];
   maxLengthTopic: Number = 0;
   globalIndex = -1;
+  loopIndexes = undefined;
 
   incomingfile(event) {
 
@@ -42,6 +43,13 @@ export class AppComponent {
 
       this.tagsArray.push(arr)
     })
+    debugger
+    if(this.fileJson.length > 100)
+      this.loopIndexes = Array(100).fill(100).map((x,i)=> i);
+    else
+      this.loopIndexes = Array(this.fileJson.length).fill(this.fileJson.length).map((x,i)=> i);
+    
+    
     this.FileUploaded = true
   }
 
@@ -85,16 +93,16 @@ export class AppComponent {
     })
 
 
-    this.ExportData = data;
+   // this.ExportData = data;
     
-    setTimeout(() => {
+    //setTimeout(() => {
       var htmlstr = document.getElementById('testingTable').outerHTML;
       var workbook = XLSX.read(htmlstr, { type: 'string', raw: true});
       var range = {s:{c:1, r:1}, e:{c:1, r:this.fileJson.length}}
       
       XLSX.writeFile(workbook, 'out.xlsx');
-    },
-      4000);
+   // }//,
+      //4000);
 
   }
   AddTag = (ind) => {

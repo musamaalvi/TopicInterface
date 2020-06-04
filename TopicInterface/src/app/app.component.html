@@ -94,7 +94,7 @@
 
 
 
-        <table id="testingTable" *ngIf="ExportData" style="display: none;">
+        <table id="testingTable"  style="display: none;">
           <thead>
             <tr class="thead no--border">
               <th class="text-left">CommentId</th>
@@ -109,11 +109,11 @@
           <tbody>
 
 
-            <ng-container *ngFor="let row of this.ExportData.children; let i = index">
+            <ng-container *ngFor="let row of this.fileJson; let i = index">
               <tr class="">
-                <td class="text-left">{{row.children[0].innerText}}</td>
-                <td class="text-left">{{row.children[1].innerText}}</td>
-                <ng-container *ngFor="let item of row.children[2].innerText.replace(re, '|').split('||')">
+                <td class="text-left">{{row.CommentId}}</td>
+                <td class="text-left">{{row.Comment}}</td>
+                <ng-container *ngFor="let item of this.tagsArray[i]">
                   <td class="text-left">
 
 
