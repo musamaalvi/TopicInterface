@@ -86,10 +86,12 @@ export class AppComponent {
 
 
     this.ExportData = data;
-    //data.children[0].children[1].innerText.replace(/\n/g, "|").split("||")
+    
     setTimeout(() => {
       var htmlstr = document.getElementById('testingTable').outerHTML;
-      var workbook = XLSX.read(htmlstr, { type: 'string' });
+      var workbook = XLSX.read(htmlstr, { type: 'string', raw: true});
+      var range = {s:{c:1, r:1}, e:{c:1, r:this.fileJson.length}}
+      
       XLSX.writeFile(workbook, 'out.xlsx');
     },
       4000);
