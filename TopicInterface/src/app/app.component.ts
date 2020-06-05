@@ -22,14 +22,15 @@ export class AppComponent {
   tagsArray = [];
   maxLengthTopic: Number = 0;
   globalIndex = -1;
-  loopIndexes = undefined;
+  loopIndexesEnd = undefined;
+  loopIndexesStart = 0;
 
   incomingfile(event) {
 
     this.fileToUpload = event.target.files[0];
   }
   PopulateTable() {
-    
+
     this.tagsArray = []
     this.fileJson.forEach((obj, index) => {
 
@@ -43,19 +44,32 @@ export class AppComponent {
 
       this.tagsArray.push(arr)
     })
-    debugger
-    if(this.fileJson.length > 100)
-      this.loopIndexes = Array(100).fill(100).map((x,i)=> i);
-    else
-      this.loopIndexes = Array(this.fileJson.length).fill(this.fileJson.length).map((x,i)=> i);
-    
-    
+
+
+    this.setPaginationIndexes(100,0);
+
     this.FileUploaded = true
   }
 
-
+  setPaginationIndexes(ending: Number, starting: Number) {
+    debugger
+    if (this.fileJson.length > ending)
+      this.loopIndexesEnd = Array(ending).fill(ending).map((x, i) => {
+        if (i >= starting) { return i }
+      });
+    else
+      this.loopIndexesEnd = Array(this.fileJson.length).fill(this.fileJson.length).map((x, i) => {
+        if (i >= starting) { return i }
+      });
+      this.loopIndexesEnd = this.loopIndexesEnd.filter((value, index)=>{
+        if(value != undefined)
+          return true
+      })
+      
+  }
   Upload() {
-
+    this.loopIndexesStart = 0;
+    this.loopIndexesEnd = undefined;
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       this.arrayBuffer = fileReader.result;
@@ -75,13 +89,13 @@ export class AppComponent {
   }
 
   removeTag(ind, removeTag) {
-    
+
     var index = this.tagsArray[ind].indexOf(removeTag.innerText)
     this.tagsArray[ind].splice(index, 1)
   }
   Export(data) {
 
-    debugger
+
     var maxLength = 0
     this.tagsArray.forEach((val, index) => {
       if (val.length >= maxLength) {
@@ -93,20 +107,20 @@ export class AppComponent {
     })
 
 
-   // this.ExportData = data;
-    
-    //setTimeout(() => {
+    // this.ExportData = data;
+
+    setTimeout(() => {
       var htmlstr = document.getElementById('testingTable').outerHTML;
-      var workbook = XLSX.read(htmlstr, { type: 'string', raw: true});
-      var range = {s:{c:1, r:1}, e:{c:1, r:this.fileJson.length}}
-      
+      var workbook = XLSX.read(htmlstr, { type: 'string', raw: true });
+      var range = { s: { c: 1, r: 1 }, e: { c: 1, r: this.fileJson.length } }
+
       XLSX.writeFile(workbook, 'out.xlsx');
-   // }//,
-      //4000);
+    },
+      4000);
 
   }
   AddTag = (ind) => {
-    
+
     if (ind == this.globalIndex) {
       var text = "";
       if (window.getSelection) {
@@ -131,5 +145,41 @@ export class AppComponent {
   }
   clearTopics(index) {
     this.tagsArray[index] = [];
+  }
+  showPrevious() {
+    
+    debugger
+    if (this.loopIndexesEnd[this.loopIndexesEnd.length-1] - 100 >= 0){
+      this.loopIndexesStart = this.loopIndexesEnd[0] - 100
+      this.loopIndexesEnd = this.loopIndexesEnd[0] 
+
+      
+    }
+      
+    else{
+      this.loopIndexesStart = 0
+      this.loopIndexesEnd = 100
+
+      
+      
+    }
+    this.setPaginationIndexes(this.loopIndexesEnd, this.loopIndexesStart)
+  }
+  showNext() {
+    debugger
+    if (this.loopIndexesEnd[this.loopIndexesEnd.length-1] + 100 <= this.fileJson.length){
+      this.loopIndexesStart = this.loopIndexesEnd[this.loopIndexesEnd.length-1] + 1
+      this.loopIndexesEnd = this.loopIndexesEnd[this.loopIndexesEnd.length-1] + 100 + 1
+
+      
+    }
+      
+    else{
+      this.loopIndexesStart = this.loopIndexesEnd[this.loopIndexesEnd.length-1] + 1
+      this.loopIndexesEnd = this.loopIndexesEnd[this.loopIndexesEnd.length-1] + this.fileJson.length + 1
+      
+    }
+    this.setPaginationIndexes(this.loopIndexesEnd, this.loopIndexesStart)
+     
   }
 }

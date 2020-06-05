@@ -62,17 +62,17 @@
 
 
             <ng-container *ngIf="FileUploaded">
-              <tr class="" *ngFor="let row of this.fileJson; let ind=index">
-                <td class="text-left nw">{{row.CommentId}}</td>
-                <td class="text-left" (click)="setIndex(ind)">{{row.Comment}}</td>
+              <tr class="" *ngFor="let value of this.loopIndexesEnd; let ind=index">
+                <td class="text-left nw">{{this.fileJson[value].CommentId}}</td>
+                <td class="text-left" (click)="setIndex(value)">{{this.fileJson[value].Comment}}</td>
                 <td class="text-center">
 
                   <div class="tags">
                     <ul class="tags tags--ds ui-sortable" #forAddingTag>
-                      <ng-container *ngFor="let tag of this.tagsArray[ind]">
+                      <ng-container *ngFor="let tag of this.tagsArray[value]">
                         <li #ToRemoveTag class="tags__item" >
                           <p>{{tag}}</p> <span class="close__item"><i class="fal fa-times"
-                              (click)="removeTag(ind, ToRemoveTag)"></i></span>
+                              (click)="removeTag(value, ToRemoveTag)"></i></span>
                         </li>
                       </ng-container>
 
@@ -81,8 +81,8 @@
 
                 </td>
                 <td class="text-center nw actions">
-                  <a class="btn" (mousedown)="AddTag(ind)">Update</a>
-                  <a class="btn btn--cancel" (click)="clearTopics(ind)">Clear</a>
+                  <a class="btn" (mousedown)="AddTag(value)">Update</a>
+                  <a class="btn btn--cancel" (click)="clearTopics(value)">Clear</a>
                 </td>
 
               </tr>
@@ -136,7 +136,7 @@
         </table>
         <footer>
           <ul class="pagination">
-            <li><a href="#" class="prev">
+            <li><a href="#" (click)="showPrevious()" class="prev">
             <i class="fa fa-chevron-left"></i>
             Previous
             </a>
@@ -148,7 +148,7 @@
             <li> <a href="#" class="active">5</a></li>
             <li> <a href="#">6</a></li>
             <li> <a href="#">7</a></li>
-            <li><a href="#" class="next"> Next
+            <li><a href="#" (click)="showNext()" class="next"> Next
             <i class="fa fa-chevron-right"></i>
             </a></li>
             </ul>
